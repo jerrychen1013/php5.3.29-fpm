@@ -1,0 +1,50 @@
+version: '3.6'
+services:
+ #=== 網頁伺服器的container ======================
+ web:
+  image: nginx
+  dns: 8.8.8.8
+  ports:
+    # 使用隨機的port 80
+    - "80:80"
+    - "443:443"
+  volumes:
+    - ./projects:/var/www/html
+    - ./etc:/etc/nginx/conf.d
+    - ./var/log/web:/var/log/nginx
+  hostname: web
+  networks:
+    - net
+
+ #=== PHP-FPM container ==========================
+ php:
+  network_mode: "service:web"
+  image: jerrychen1013/php:5.3.29-fpm
+  volumes:
+    - ./projects:/var/www/html
+    - ./etc/php/php.ini:/usr/local/etc/php/php.ini
+    - ./etc/php/conf.d:/usr/local/etc/php/conf.d
+  ###建立composer cache###
+    - ./etc/cache:/home/dlaravel/.composer/cache
+  environment:
+    - TZ=Asia/Taipei
+
+#=== 資料庫 container ===========================
+ db:
+  image: mysql:5.7.19
+  hostname: db
+  ports:
+    - "127.0.0.1:3306:3306"
+  volumes:
+    - ./etc/mysql/my.cnf:/etc/mysql/my.cnf
+    - ./data:/var/lib/mysql
+  environment:
+   #- MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD-secret}
+   - MYSQL_ALLOW_EMPTY_PASSWORD= "yes"
+   - TZ=Asia/Taipei
+  networks:
+    - net
+
+######top-level netowks key#######
+networks:
+    net:
