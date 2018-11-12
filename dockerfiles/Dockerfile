@@ -1,8 +1,6 @@
 
 FROM debian:jessie
 
-COPY docker-php-* /usr/local/bin/
-
 # persistent / runtime deps
 RUN set -xe \
 	&& DEBIAN_FRONTEND=noninteractive apt-get update -qq \
@@ -88,7 +86,9 @@ RUN set -xe \
 	&& export PHP_OPENSSL_DIR=yes
 
 ENV PHP_VERSION 5.3.29
-COPY docker-php-source /usr/local/bin/
+# COPY docker-php-* /usr/local/bin/
+# COPY docker-php-source /usr/local/bin/
+
 
 # php 5.3 needs older autoconf
 # --enable-mysqlnd is included below because it's harder to compile after the fact the extensions are (since it's a plugin for several extensions, not an extension in itself)
