@@ -25,7 +25,7 @@ services:
     - ./etc/php/php.ini:/usr/local/etc/php/php.ini
     - ./etc/php/conf.d:/usr/local/etc/php/conf.d
   ###建立composer cache###
-    - ./etc/cache:/home/dlaravel/.composer/cache
+    - ./etc/cache:/root/.composer/cache
   environment:
     - TZ=Asia/Taipei
 
