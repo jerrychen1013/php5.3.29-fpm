@@ -75,7 +75,7 @@ RUN set -xe \
 	&& cd /tmp \
 	&& mkdir openssl \
 	&& curl -sL "https://www.openssl.org/source/openssl-$OPENSSL_VERSION.tar.gz" -o openssl.tar.gz \
-	&& curl -sL "https://www.openssl.org/source/openssl-$OPENSSL_VERSION.tar.gz.asc" -o openssl.tar.gz.asc \
+	# && curl -sL "https://www.openssl.org/source/openssl-$OPENSSL_VERSION.tar.gz.asc" -o openssl.tar.gz.asc \
 	&& tar -xzf openssl.tar.gz -C openssl --strip-components=1 \
 	&& cd /tmp/openssl \
 	&& ./config \
@@ -86,7 +86,7 @@ RUN set -xe \
 	&& export PHP_OPENSSL_DIR=yes
 
 ENV PHP_VERSION 5.3.29
-# COPY docker-php-* /usr/local/bin/
+COPY docker-php-* /usr/local/bin/
 # COPY docker-php-source /usr/local/bin/
 
 
