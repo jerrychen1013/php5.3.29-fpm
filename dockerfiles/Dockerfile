@@ -34,6 +34,7 @@ RUN set -xe \
 		zip \
 		apt-utils \
 		supervisor \
+		locales \
 # php 5.3 needs older autoconf
 # --enable-mysqlnd is included below because it's harder to compile after the fact the extensions are (since it's a plugin for several extensions, not an extension in itself)
 		autoconf2.13 \ 
@@ -65,6 +66,10 @@ RUN set -xe \
 	&& export PHP_OPENSSL_DIR=yes \
 	&& DEBIAN_FRONTEND=noninteractive apt-get purge -qq -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
 	&& rm -rf /var/lib/apt/lists/*
+
+# install JP locale
+RUN echo "ja_JP.UTF-8 UTF-8" >> /etc/locale.gen \
+	locale-gen
 
 ENV PHP_INI_DIR /usr/local/etc/php
 RUN mkdir -p $PHP_INI_DIR/conf.d
